@@ -1,14 +1,14 @@
 import express from 'express'
+import * as playerServices from '../services/playersService'
 
 const router = express.Router()
 
-router.get("/", (_req,res) =>{
-  res.send('Fetching all players')
+router.get('/', (_req, res) => {
+  res.send(playerServices.getPlayerNoElo())
 })
 
-router.post("/", (_req,res) =>{
-    res.send('Saving a new player')
+router.post('/', (_req, res) => {
+  res.send('Saving a new player')
 })
 
-
-export default router;
+export default router
