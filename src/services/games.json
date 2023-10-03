@@ -26,14 +26,7 @@
         "namePlayer": "Bullrich",
         "range": "bronze",
         "honor": 1 
-      },
-      {
-        "idPlayer": 5,
-        "gameName": "League of Legends",
-        "namePlayer": "Del Caño",
-        "range": "iron",
-        "honor": 0 
       }
-
+     
 
 ]
