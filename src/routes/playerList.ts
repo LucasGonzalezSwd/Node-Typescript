@@ -1,13 +1,13 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import * as playerServices from '../services/playersService'
 import toNewPlayerAdded from '../utils'
 
 const router = express.Router()
 
-router.get('/', (_req, res) => {
+router.get('/', (_req, res: Response) => {
   res.send(playerServices.getPlayerNoElo())
 })
-router.get('/:id', (req, res) => {
+router.get('/:id', (req: Request, res) => {
   const player = playerServices.getPlayersId(Number(req.params.id))
 
   return (player != null)
@@ -15,7 +15,7 @@ router.get('/:id', (req, res) => {
     : res.sendStatus(404)
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req: Request, res: Response) => {
   try {
     // const { gameName, namePlayer, range, honor } = req.body es de tipo any cada prop
 
