@@ -18,6 +18,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
   try {
     if (player === null || player === undefined) {
       res.status(404).send('Player not found')
+      return
     }
     res.json(player)
   } catch (error) {
@@ -66,6 +67,7 @@ export const putPlayer = async (req: Request, res: Response): Promise<void> => {
     )
     if (updatedPlayer == null) {
       res.status(404).send('Jugador no encontrado')
+      return
     }
     res.status(200).json(updatedPlayer)
   } catch (error) {
