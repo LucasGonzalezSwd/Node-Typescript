@@ -10,8 +10,8 @@ router.get('/:id', getById)
 
 router.post('/', postPlayer)
 
-router.put('/', putPlayer)
+router.put('/:id', putPlayer)
 
-router.delete('/', deletePlayer)
+router.delete('/:id', deletePlayer)
 
 export default router

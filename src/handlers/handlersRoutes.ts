@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import Player from '../models/Player'
-import * as playerServices from '../services/playersService'
 import toNewPlayerAdded from '../utils'
+import { PlayerData } from '../../types'
 
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
   try {
@@ -25,10 +25,28 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
+export const addPlayers = async (playerData: PlayerData): Promise<PlayerData> => {
+  try {
+    const newPlayer = new Player({
+      namePlayer: playerData.namePlayer,
+      gameName: playerData.gameName,
+      honor: playerData.honor,
+      range: playerData.range
+    })
+
+    await newPlayer.save()
+
+    return await newPlayer.toObject()
+  } catch (error) {
+    console.log(error)
+    throw new Error('Error al agregar jugador a la base de datos')
+  }
+}
+
 export const postPlayer = async (req: Request, res: Response): Promise<void> => {
   const newPlayer = toNewPlayerAdded(req.body)
   try {
-    const newPlayerAdded = await playerServices.addPlayers(newPlayer)
+    const newPlayerAdded = await addPlayers(newPlayer)
 
     res.json(newPlayerAdded)
   } catch (e) {
@@ -63,9 +81,9 @@ export const deletePlayer = async (req: Request, res: Response): Promise<void> =
 
     if (deletedPlayer == null) {
       res.status(404).send('Jugador no encontrado')
+      return
     }
-    res.status(200).send('Jugador eliminado correctamente')
-    res.json(deletedPlayer)
+    res.status(200).json(deletedPlayer)
   } catch (error) {
     res.status(500).send('Error retrieving players')
   }
