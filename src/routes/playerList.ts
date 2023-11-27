@@ -1,32 +1,17 @@
-import express, { Request, Response } from 'express'
-import * as playerServices from '../services/playersService'
-import toNewPlayerAdded from '../utils'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import express from 'express'
+import { deletePlayer, getAll, getById, postPlayer, putPlayer } from '../handlers/handlersRoutes'
 
 const router = express.Router()
 
-router.get('/', (_req, res: Response) => {
-  res.send(playerServices.getPlayerNoElo())
-})
-router.get('/:id', (req: Request, res) => {
-  const player = playerServices.getPlayersId(Number(req.params.id))
+router.get('/', getAll)
 
-  return (player != null)
-    ? res.send(player)
-    : res.sendStatus(404)
-})
+router.get('/:id', getById)
 
-router.post('/', (req: Request, res: Response) => {
-  try {
-    // const { gameName, namePlayer, range, honor } = req.body es de tipo any cada prop
+router.post('/', postPlayer)
 
-    const newPlayer = toNewPlayerAdded(req.body)
+router.put('/', putPlayer)
 
-    const newPlayerAdded = playerServices.addPlayers(newPlayer)
-
-    res.json(newPlayerAdded)
-  } catch (e) {
-    res.status(400).send((e as Error).message)
-  }
-})
+router.delete('/', deletePlayer)
 
 export default router

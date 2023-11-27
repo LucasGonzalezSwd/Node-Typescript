@@ -1,4 +1,4 @@
-import { NewPlayerEntry, Range, Honor } from '../types'
+import { PlayerData, Range, Honor } from '../types'
 
 const isString = (string: string): boolean => {
   return typeof string === 'string'
@@ -35,13 +35,13 @@ const parseHonor = (honorFromRequest: any): Honor => {
 }
 const parseRange = (rangeFromRequest: any): Range => {
   if (!isString(rangeFromRequest) || !isRange(rangeFromRequest)) {
-    throw new Error('Honor can beIron iron, bronze, silver, gold, platinium, esmerald, diamond, master, grandmaster, challenger')
+    throw new Error('Honor can be iron, bronze, silver, gold, platinium, esmerald, diamond, master, grandmaster, challenger')
   }
   return rangeFromRequest
 }
 
-const toNewPlayerAdded = (object: any): NewPlayerEntry => {
-  const NewEntry: NewPlayerEntry = {
+const toNewPlayerAdded = (object: any): PlayerData => {
+  const NewEntry: PlayerData = {
     namePlayer: parseName(object.namePlayer),
     gameName: parseGameName(object.gameName),
     honor: parseHonor(object.honor),

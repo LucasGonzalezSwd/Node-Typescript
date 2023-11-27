@@ -1,36 +1,20 @@
-import { PlayerData, NoEloPlayer, NewPlayerEntry } from '../../types'
-import playerData from './games.json'
+import { PlayerData } from '../../types'
+import Player from '../models/Player'
 
-const playerList: PlayerData[] = playerData as PlayerData[]
+export const addPlayers = async (playerData: PlayerData): Promise<PlayerData> => {
+  try {
+    const newPlayer = new Player({
+      namePlayer: playerData.namePlayer,
+      gameName: playerData.gameName,
+      honor: playerData.honor,
+      range: playerData.range
+    })
 
-export const getPlayers = (): PlayerData[] => playerList
+    await newPlayer.save()
 
-export const getPlayersId = (id: number): NoEloPlayer | undefined => {
-  const playerEntry = playerList.find(p => p.idPlayer === id)
-
-  if (playerEntry != null) {
-    const { range, ...restOfPlayer } = playerEntry
-    return restOfPlayer
+    return await newPlayer.toObject()
+  } catch (error) {
+    console.log(error)
+    throw new Error('Error al agregar jugador a la base de datos')
   }
-  return undefined
-}
-export const getPlayerNoElo = (): NoEloPlayer[] => {
-  return playerList.map(({ idPlayer, namePlayer, range, gameName, honor }) => {
-    return {
-      idPlayer,
-      range,
-      namePlayer,
-      gameName,
-      honor
-    }
-  })
-}
-
-export const addPlayers = (newPlayerEntry: NewPlayerEntry): PlayerData => {
-  const newPlayer = {
-    idPlayer: Math.max(...playerList.map(d => d.idPlayer)) + 1,
-    ...newPlayerEntry
-  }
-  playerList.push(newPlayer)
-  return newPlayer
 }
