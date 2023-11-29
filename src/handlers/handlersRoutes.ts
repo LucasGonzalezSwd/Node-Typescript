@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import Player from '../models/Player'
-import toNewPlayerAdded from '../utils'
+import toNewPlayerAdded, { parseHonor, parseName, parseRange } from '../utils'
 import { PlayerData } from '../../types'
 
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
@@ -45,13 +45,22 @@ export const addPlayers = async (playerData: PlayerData): Promise<PlayerData> =>
 }
 
 export const postPlayer = async (req: Request, res: Response): Promise<void> => {
-  const newPlayer = toNewPlayerAdded(req.body)
   try {
+    const newPlayer = toNewPlayerAdded(req.body)
     const newPlayerAdded = await addPlayers(newPlayer)
 
     res.json(newPlayerAdded)
-  } catch (e) {
-    res.status(400).send((e as Error).message)
+  } catch (error) {
+    if (typeof error === 'object' && error !== null && 'message' in error) {
+      const errorMessage = (error as Error).message
+      if (errorMessage.includes('honor debe estar entre 0 y 5')) {
+        res.status(400).send(errorMessage) // Manejo del error específico del honor
+      } else {
+        res.status(500).send('Error al agregar el jugador')
+      }
+    } else {
+      res.status(500).send('Error al agregar el jugador')
+    }
   }
 }
 
@@ -60,15 +69,20 @@ export const putPlayer = async (req: Request, res: Response): Promise<void> => {
   const { namePlayer, range, honor } = req.body
 
   try {
+    const parsedNamePlayer = parseName(namePlayer)
+    const parsedHonor = parseHonor(honor)
+    const parsedRange = parseRange(range)
+
     const updatedPlayer = await Player.findByIdAndUpdate(
       playerId,
-      { namePlayer, range, honor },
+      { namePlayer: parsedNamePlayer, range: parsedRange, honor: parsedHonor },
       { new: true }
     )
     if (updatedPlayer == null) {
       res.status(404).send('Jugador no encontrado')
       return
     }
+
     res.status(200).json(updatedPlayer)
   } catch (error) {
     res.status(500).send('Error retrieving players')
