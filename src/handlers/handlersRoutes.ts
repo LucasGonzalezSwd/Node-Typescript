@@ -75,7 +75,11 @@ export const putPlayer = async (req: Request, res: Response): Promise<void> => {
 
     const updatedPlayer = await Player.findByIdAndUpdate(
       playerId,
-      { namePlayer: parsedNamePlayer, range: parsedRange, honor: parsedHonor },
+      {
+        namePlayer: parsedNamePlayer,
+        range: parsedRange,
+        honor: parsedHonor
+      },
       { new: true }
     )
     if (updatedPlayer == null) {

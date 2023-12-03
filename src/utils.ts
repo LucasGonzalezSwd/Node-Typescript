@@ -42,10 +42,10 @@ export const parseRange = (rangeFromRequest: any): Range => {
 
 const toNewPlayerAdded = (object: any): PlayerData => {
   const NewEntry: PlayerData = {
-    namePlayer: parseName(object.namePlayer),
-    gameName: parseGameName(object.gameName),
-    honor: parseHonor(object.honor),
-    range: parseRange(object.range)
+    namePlayer: parseName(object.namePlayer).toUpperCase(),
+    gameName: parseGameName(object.gameName).toUpperCase(),
+    range: parseRange(object.range),
+    honor: parseHonor(object.honor)
   }
   return NewEntry
 }
