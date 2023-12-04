@@ -12,6 +12,6 @@ app.use(express.json())
 app.use(cors())
 app.use('/api/players', playerList)
 
-app.listen(() => {
+app.listen(port, () => {
   console.log(`LISTEN ON ${port}`)
 })
