@@ -13,5 +13,5 @@ app.use(cors())
 app.use('/api/players', playerList)
 
 app.listen(PORT, () => {
-  console.log(`server is running in port ${PORT}`)
+  console.log(' ')
 })

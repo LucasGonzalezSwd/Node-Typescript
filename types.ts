@@ -1,14 +1,14 @@
 export enum Range {
-  Iron = 'iron',
-  Bronze = 'bronze',
-  Silver = 'silver',
-  Gold = 'gold',
-  Platinium = 'platinium',
-  Esmerald = 'esmerald',
-  Diamond = 'diamond',
-  Master = 'master',
-  Grandmaster = 'grandmaster',
-  Challenger = 'challenger'
+  Iron = 'IRON',
+  Bronze = 'BRONZE',
+  Silver = 'SILVER',
+  Gold = 'GOLD',
+  Platinium = 'PLATINIUM',
+  Esmerald = 'ESMERALD',
+  Diamond = 'DIAMOND',
+  Master = 'MASTER',
+  Grandmaster = 'GRANDMASTER',
+  Challenger = 'CHALLENGER'
 }
 
 export enum Honor {
@@ -21,7 +21,7 @@ export enum Honor {
 }
 
 export interface PlayerData {
-  'idPlayer': number
+
   'gameName': string
   'namePlayer': string
   'range': Range
@@ -29,5 +29,3 @@ export interface PlayerData {
 }
 
 export type NoEloPlayer = Omit<PlayerData, 'range' >
-// export type NoEloPlayer = Pick<PlayerData, 'idPlayer' | 'gameName' | 'namePlayer' | 'honor'>
-export type NewPlayerEntry = Omit<PlayerData, 'idPlayer'>
