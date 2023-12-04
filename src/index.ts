@@ -3,7 +3,7 @@ import playerList from './routes/playerList'
 import connectDB from './db'
 import cors from 'cors'
 const app = express()
-const PORT = 3001
+const port = process.env.PORT ?? 3002
 
 /* eslint-disable-next-line @typescript-eslint/no-floating-promises */
 connectDB()
@@ -12,6 +12,6 @@ app.use(express.json())
 app.use(cors())
 app.use('/api/players', playerList)
 
-app.listen(PORT, () => {
-  console.log(' ')
+app.listen(() => {
+  console.log(`LISTEN ON ${port}`)
 })
